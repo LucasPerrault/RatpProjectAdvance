@@ -1,9 +1,5 @@
 package HttpUrlConnection;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +17,7 @@ public class HttpUrlConnection {
         _userAgent = userAgent;
     }
 
-    public static String sendGET() throws IOException, ParseException {
+    public static String sendGET() throws IOException {
         /* Declare the url and HttpClient object */
         URL obj = new URL(_urlGet);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -37,11 +33,8 @@ public class HttpUrlConnection {
         // Success !
         if (responseCode == HttpURLConnection.HTTP_OK) {
             // Throw json data treatment
-            InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream(), "UTF-8");
-            JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObject = (JSONObject)jsonParser.parse(inputStreamReader);
-            System.out.print("json object" + jsonObject);
-            BufferedReader in = new BufferedReader(inputStreamReader);
+            InputStreamReader input = new InputStreamReader(con.getInputStream());
+            BufferedReader in = new BufferedReader(input);
             String inputLine;
             StringBuffer response = new StringBuffer();
 
@@ -55,6 +48,7 @@ public class HttpUrlConnection {
         } else {
             System.out.println("GET request not worked");
             return "";
+
         }
     }
 }
