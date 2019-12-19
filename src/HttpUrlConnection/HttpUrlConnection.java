@@ -17,7 +17,7 @@ public class HttpUrlConnection {
         _userAgent = userAgent;
     }
 
-    public static String sendGET() throws IOException {
+    public static String getStringRatpData() throws IOException {
         /* Declare the url and HttpClient object */
         URL obj = new URL(_urlGet);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
