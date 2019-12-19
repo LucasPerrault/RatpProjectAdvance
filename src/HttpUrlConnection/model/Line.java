@@ -1,19 +1,23 @@
 package HttpUrlConnection.model;
 
+import java.util.ArrayList;
+
 public class Line
 {
-    private String[] _stopIds;
+    private ArrayList<ArrayList<String>> _stopIds;
     private String _name;
-    private Integer _num;
+    private String _num;
     private String _color;
-    private String[] _labels;
+    private String _type;
+    private ArrayList<ArrayList<String>> _labels;
 
-    public Line(String[] stopIds, String name, Integer num, String color, String[] labels)
+    public Line(ArrayList<ArrayList<String>> stopIds, String name, String num, String color, String type, ArrayList<ArrayList<String>> labels)
     {
         _stopIds = stopIds;
         _name = name;
         _num = num;
         _color = color;
+        _type = type;
         _labels = labels;
     }
 
@@ -27,23 +31,23 @@ public class Line
         return _color;
     }
 
-    public String[] getLabels()
+    public ArrayList<ArrayList<String>> getLabels()
     {
         return _labels;
     }
 
-    public Integer getNum()
+    public String getNum()
     {
         return _num;
     }
 
-    public String[] getStopIds()
+    public ArrayList<ArrayList<String>> getStopIds()
     {
         return _stopIds;
     }
 
     @Override
     public String toString() {
-        return "Line n°" + _num + "with" + _color + "named " + _name + ". There labels are : " + _labels + "it contains" + _stopIds;
+        return "Line n°" + _num + " with color " + _color + " named " + _name + ".\n There labels are : " + _labels + "it contains" + _stopIds;
     }
 }
