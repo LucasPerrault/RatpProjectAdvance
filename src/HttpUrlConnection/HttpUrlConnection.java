@@ -1,6 +1,9 @@
 package HttpUrlConnection;
 
-import java.io.BufferedReader;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -17,10 +20,10 @@ public class HttpUrlConnection {
         _userAgent = userAgent;
     }
 
-    public static String getStringRatpData() throws IOException {
+    public static JSONObject getJsonObjectOfAllRatpData() throws IOException, ParseException {
         /* Declare the url and HttpClient object */
-        URL obj = new URL(_urlGet);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        URL url = new URL(_urlGet);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         /* Configuration of HttpClient */
         con.setRequestMethod("GET");
@@ -34,21 +37,17 @@ public class HttpUrlConnection {
         if (responseCode == HttpURLConnection.HTTP_OK) {
             // Throw json data treatment
             InputStreamReader input = new InputStreamReader(con.getInputStream());
-            BufferedReader in = new BufferedReader(input);
-            String inputLine;
-            StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+            // Declare JsonParser
+            JSONParser jsonParser = new JSONParser();
+            Object obj = jsonParser.parse(input);
 
-            // Read result
-           return response.toString();
+            // Get Json result
+            return (JSONObject) obj;
+
         } else {
-            System.out.println("GET request not worked");
-            return "";
-
+            System.out.println("GET request not worked" + responseCode);
+            return new JSONObject();
         }
     }
 }
