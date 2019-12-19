@@ -1,17 +1,19 @@
 package HttpUrlConnection.model;
 
+import java.util.ArrayList;
+
 public class Stop {
 
     private String _commune;
     private String _lat;
     private String _lng;
-    private Line[] _lines;
+    private ArrayList<Line> _lines;
     private String _name;
     private String _num;
     private String _type;
     private Boolean _isHub;
 
-    public Stop(String commune, String lat, String lng, Line[] lines, String name, String num, String type, Boolean isHub)
+    public Stop(String commune, String lat, String lng, ArrayList<Line> lines, String name, String num, String type, Boolean isHub)
     {
         _commune = commune;
         _lat = lat;
@@ -38,7 +40,7 @@ public class Stop {
         return _lng;
     }
 
-    public Line[] getLines()
+    public ArrayList<Line> getLines()
     {
         return _lines;
     }
@@ -58,7 +60,7 @@ public class Stop {
         return "In " + _commune + "\n"
         + "Position (lat/lng)" +_lat + " / "
         + _lng + "\n"
-        + "The lines are " + _lines + "("+ _lines.length +") \n"
+        + "The lines are " + _lines + "("+ _lines.size() +") \n"
         + " Which name is " + _name + "\n"
         + " With num " + _num + "\n"
         + " With type " + _type
