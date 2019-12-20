@@ -22,6 +22,16 @@ public class BreadthFirstSearch
         _dest = dest;
         _predessorStopsPath = getPredecessorStopsPathWithBFS(src);
     }
+    
+    public boolean areConnected()
+    {
+        /* Check if dest exist on the path */
+        if (_predessorStopsPath.contains(_dest)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private Stack<Stop> getPredecessorStopsPathWithBFS(Stop src) {
         Queue<Stop> evaluatedQueue = new LinkedList<Stop>();
