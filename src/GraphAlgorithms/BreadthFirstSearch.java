@@ -3,6 +3,7 @@ package GraphAlgorithms;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class BreadthFirstSearch
@@ -25,7 +26,11 @@ public class BreadthFirstSearch
 
     public String getShortestPathOfStopsToString()
     {
-        return getShortestPathOfStops().toString();
+        String result = "";
+        for (Stop stop: getShortestPathOfStops()) {
+            result.concat(stop.getName() + "\n");
+        }
+        return result;
     }
 
     public List<Stop> getShortestPathOfStops() {
