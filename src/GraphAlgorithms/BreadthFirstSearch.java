@@ -22,7 +22,40 @@ public class BreadthFirstSearch
         _dest = dest;
         _predessorStopsPath = getPredecessorStopsPathWithBFS(src);
     }
-    
+
+    public String getShortestPathOfStopsToString()
+    {
+        return getShortestPathOfStops().toString();
+    }
+
+    public List<Stop> getShortestPathOfStops() {
+
+        /* Check if the path is not empty */
+        if (_predessorStopsPath.isEmpty()) return null;
+
+        /* Initialization */
+        ArrayList<Stop> shortestPathListToDestination = new ArrayList<Stop>();
+        Stop currentDestination = _dest;
+
+        /* Treatment */
+        while(!_predessorStopsPath.isEmpty()) {
+            Stop lastStopSave = _predessorStopsPath.pop();
+
+            if (lastStopSave.equals(_dest)) {
+                shortestPathListToDestination = new ArrayList<Stop>();
+            }
+
+            if (currentDestination.isAdjacent(lastStopSave)) {
+                shortestPathListToDestination.add(lastStopSave);
+                currentDestination = lastStopSave;
+            }
+        }
+
+        /* Return the shortest path */
+        Collections.reverse(shortestPathListToDestination);
+        return shortestPathListToDestination;
+    }
+
     public boolean areConnected()
     {
         /* Check if dest exist on the path */
