@@ -55,6 +55,26 @@ public class Stop {
         return _num;
     }
 
+    public boolean isAdjacent(Stop potentialAdjacentStop)
+    {
+        boolean isAdjacent = false;
+        for (Line line: _lines)
+        {
+            for (ArrayList<String> stopIdsList: line.getStopIds())
+            {
+                int currentIndexStop = stopIdsList.indexOf(this);
+                String nextStopIds = stopIdsList.get(currentIndexStop + 1);
+                String previousStopIds = stopIdsList.get(currentIndexStop - 1);
+
+                if (nextStopIds.equals(potentialAdjacentStop.getNum()) || previousStopIds.equals(potentialAdjacentStop.getNum()))
+                {
+                    isAdjacent = true;
+                }
+            }
+        }
+        return isAdjacent;
+    }
+
     @Override
     public String toString() {
         return "In " + _commune + "\n"
