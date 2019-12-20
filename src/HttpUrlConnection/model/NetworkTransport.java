@@ -29,6 +29,33 @@ public class NetworkTransport {
         return _correspondences;
     }
 
+    public ArrayList<Stop> getAjdacentsByStop(Stop stop)
+    {
+        ArrayList<Stop> stops = new ArrayList<Stop>();
+
+        for (Line line: _lines)
+        {
+            for (ArrayList<String> stopIdsList: line.getStopIds())
+            {
+                int currentStopIndex = stopIdsList.indexOf(stop.getNum());
+                if (currentStopIndex == 0)
+                {
+                    Stop adjacentStop = _stops.get(currentStopIndex + 1);
+                    stops.add(adjacentStop);
+                } else if(currentStopIndex == (stopIdsList.size() - 1)) {
+                    Stop adjacentStop = getStops().get(currentStopIndex - 1);
+                    stops.add(adjacentStop);
+                } else {
+                    Stop adjacentStopPrevious = getStops().get(currentStopIndex + 1);
+                    stops.add(adjacentStopPrevious);
+                    Stop adjacentStopNext = getStops().get(currentStopIndex - 1);
+                    stops.add(adjacentStopNext);
+                }
+            }
+        }
+        return stops;
+    }
+
     @Override
     public String toString() {
         return "The Network contains " + _lines.length + " lines which are " + _lines + " and " + _stops.size() + " stops which are "
