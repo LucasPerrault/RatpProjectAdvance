@@ -1,5 +1,7 @@
 package HttpUrlConnection.model;
 
+import Helpers.MathHelpers;
+
 import java.util.ArrayList;
 
 public class Stop {
@@ -74,6 +76,17 @@ public class Stop {
         }
         return isAdjacent;
     }
+
+    public double getDistanceBetween(Stop stop)
+    {
+        return MathHelpers.distanceInKilometers(
+                Double.parseDouble(stop.getLat()),
+                Double.parseDouble(stop.getLng()),
+                Double.parseDouble(_lat),
+                Double.parseDouble(_lng)
+        );
+    }
+
 
     @Override
     public String toString() {
