@@ -1,11 +1,14 @@
 package HttpUrlConnection.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NetworkTransport {
     private ArrayList<Line> _lines;
     private ArrayList<Stop> _stops;
     private ArrayList<Correspondence> _correspondences;
+    private double _travelledDistance;
+    private HashMap<Stop, Double> _travelledStopsAndDistances = new HashMap<Stop, Double>();
 
     public NetworkTransport(ArrayList<Line> lines, ArrayList<Stop> stops, ArrayList<Correspondence> correspondences)
     {
@@ -54,6 +57,29 @@ public class NetworkTransport {
             }
         }
         return stops;
+    }
+
+    public HashMap<Stop, Double> getTravelledStopsAndDistances()
+    {
+        return _travelledStopsAndDistances;
+    }
+
+    public void resetDistanceTraveledByStops()
+    {
+        for (Stop stop: _stops) {
+            setTravelledDistanceByStop(stop, Double.POSITIVE_INFINITY);
+        }
+    }
+
+    public void setTravelledDistanceByStop(Stop stop, Double distance)
+    {
+        _travelledStopsAndDistances.put(stop, distance);
+    }
+
+    public double getTravelledDistanceByStop(Stop stop)
+    {
+        return _travelledStopsAndDistances.get(stop);
+
     }
 
     @Override
