@@ -9,6 +9,8 @@ public class NetworkTransport {
     private ArrayList<Correspondence> _correspondences;
     private double _travelledDistance;
     private HashMap<Stop, Double> _travelledStopsAndDistances = new HashMap<Stop, Double>();
+    private HashMap<Stop, Stop> predecessorByStops = new HashMap<Stop, Stop>();
+
 
     public NetworkTransport(ArrayList<Line> lines, ArrayList<Stop> stops, ArrayList<Correspondence> correspondences)
     {
@@ -80,6 +82,16 @@ public class NetworkTransport {
     {
         return _travelledStopsAndDistances.get(stop);
 
+    }
+
+    public void setPredecessorStops(Stop adjacent, Stop predecessor)
+    {
+        predecessorByStops.put(adjacent, predecessor);
+    }
+
+    public Stop getPredecessorByStop(Stop stop)
+    {
+        return predecessorByStops.get(stop);
     }
 
     @Override
