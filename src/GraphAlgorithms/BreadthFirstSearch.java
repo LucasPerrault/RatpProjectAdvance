@@ -50,7 +50,7 @@ public class BreadthFirstSearch
                 shortestPathListToDestination = new ArrayList<Stop>();
             }
 
-            if (currentDestination.isAdjacent(lastStopSave)) {
+            if (currentDestination.isAdjacent(lastStopSave, _networkTransport.getLines())) {
                 shortestPathListToDestination.add(lastStopSave);
                 currentDestination = lastStopSave;
             }
