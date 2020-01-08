@@ -48,6 +48,6 @@ public class Line
 
     @Override
     public String toString() {
-        return "Line n°" + _num + " with color " + _color + " named " + _name + ".\n There labels are : " + _labels + "it contains" + _stopIds;
+        return "Line n°" + _num + " with color " + _color + " named " + _name + ".\n There labels are : " + _labels + "it contains" + _stopIds +"\n";
     }
 }

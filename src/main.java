@@ -12,6 +12,7 @@ public class main {
 
     public static void main(String[] args) throws IOException, ParseException {
         RatpDataService ratpDataService = new RatpDataService(GET_URL, USER_AGENT);
-        System.out.println(ratpDataService.getRatpLines());
+        //System.out.println(ratpDataService.getRatpLines());
+        System.out.println(ratpDataService.getRatpData("stations" ));
     }
 }

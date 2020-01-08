@@ -7,13 +7,13 @@ public class Stop {
     private String _commune;
     private String _lat;
     private String _lng;
-    private ArrayList<Line> _lines;
+    private ArrayList<String> _lines;
     private String _name;
     private String _num;
     private String _type;
     private Boolean _isHub;
 
-    public Stop(String commune, String lat, String lng, ArrayList<Line> lines, String name, String num, String type, Boolean isHub)
+    public Stop(String commune, String lat, String lng, ArrayList<String> lines, String name, String num, String type, Boolean isHub)
     {
         _commune = commune;
         _lat = lat;
@@ -40,7 +40,7 @@ public class Stop {
         return _lng;
     }
 
-    public ArrayList<Line> getLines()
+    public ArrayList<String> getLines()
     {
         return _lines;
     }
@@ -60,7 +60,7 @@ public class Stop {
         return "In " + _commune + "\n"
         + "Position (lat/lng)" +_lat + " / "
         + _lng + "\n"
-        + "The lines are " + _lines + "("+ _lines.size() +") \n"
+        + "The lines are " + _lines  +"\n"
         + " Which name is " + _name + "\n"
         + " With num " + _num + "\n"
         + " With type " + _type
