@@ -10,19 +10,27 @@ public class Dijkstra
     NetworkTransport _networkTransport;
     Stop _src;
     Stop _dest;
+    Optional<PriorityQueue<Stop>> _optionalPriorityQueue;
 
-    public Dijkstra(Stop src, Stop dest, NetworkTransport networkTransport)
+    public Dijkstra(Stop src, Stop dest, NetworkTransport networkTransport, Optional<PriorityQueue<Stop>> optionalPriorityQueue)
     {
         _src = src;
         _dest = dest;
         _networkTransport = networkTransport;
+        _optionalPriorityQueue = optionalPriorityQueue;
         init();
     }
 
     private void init()
     {
         // Initialization of priority queue.
-        PriorityQueue<Stop> priorityQueue = new PriorityQueue<Stop>();
+        PriorityQueue<Stop> priorityQueue;
+        if (_optionalPriorityQueue.isPresent())
+        {
+            priorityQueue = _optionalPriorityQueue.get();
+        } else {
+            priorityQueue = new PriorityQueue<Stop>();
+        }
         HashMap<Stop, Boolean> cellAreadyVisited = new HashMap<Stop, Boolean>();
         priorityQueue.add(_src);
         cellAreadyVisited.put(_src, true);
