@@ -3,8 +3,8 @@ package Helpers;
 import HttpUrlConnection.model.Line;
 import HttpUrlConnection.model.Stop;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,22 +23,32 @@ public class ApiDataHelpers {
     }
 
     public static Stop castObjectToRatpStop(JSONObject stationJsonObject) {
-        // Get the type of the current station
-        String type = (String) stationJsonObject.get("type");
         // Create a dictionnary of the lines for the station
-        HashMap<String, ArrayList<String>> lines = (HashMap<String, ArrayList<String>>) stationJsonObject.get("lignes");
+        // /!\ Here, the object lines on the api of vasyenmetro.com is : /!\
+        // line : { "metro": ["13, 12"] } OR line : { "RER": ["B"] } etc..
+        HashMap<String, ArrayList<String>> apiRatpLines = (HashMap<String, ArrayList<String>>) stationJsonObject.get("lignes");
+
+        // We choosed the type of line.
+        String type = "metro";
+
+        ArrayList<String> lineIdsContainedByEachStop = apiRatpLines.get(type);
 
 
         return new Stop(
                 (String) stationJsonObject.get("commune"),
                 (String) stationJsonObject.get("lat"),
                 (String) stationJsonObject.get("lng"),
-                lines.get(type),
+                (ArrayList<String>) lineIdsContainedByEachStop,
                 (String) stationJsonObject.get("nom"),
                 (String) stationJsonObject.get("num"),
                 (String) stationJsonObject.get("type"),
                 (Boolean) stationJsonObject.get("isHub")
 
         );
+    }
+
+    public static boolean isTypeOf(String type, JSONObject ratpDataObject)
+    {
+        return ratpDataObject.get("type").equals(type);
     }
 }

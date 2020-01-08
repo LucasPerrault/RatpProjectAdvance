@@ -7,18 +7,18 @@ public class Stop {
     private String _commune;
     private String _lat;
     private String _lng;
-    private ArrayList<String> _lines;
+    private ArrayList<String> _lineIds;
     private String _name;
     private String _num;
     private String _type;
     private Boolean _isHub;
 
-    public Stop(String commune, String lat, String lng, ArrayList<String> lines, String name, String num, String type, Boolean isHub)
+    public Stop(String commune, String lat, String lng, ArrayList<String> lineIds, String name, String num, String type, Boolean isHub)
     {
         _commune = commune;
         _lat = lat;
         _lng = lng;
-        _lines = lines;
+        _lineIds = lineIds;
         _name = name;
         _num = num;
         _type = type;
@@ -40,9 +40,9 @@ public class Stop {
         return _lng;
     }
 
-    public ArrayList<String> getLines()
+    public ArrayList<String> getLineIds()
     {
-        return _lines;
+        return _lineIds;
     }
 
     public String getType()
@@ -55,10 +55,10 @@ public class Stop {
         return _num;
     }
 
-    public boolean isAdjacent(Stop potentialAdjacentStop)
+    public boolean isAdjacent(Stop potentialAdjacentStop, ArrayList<Line> lines)
     {
         boolean isAdjacent = false;
-        for (Line line: _lines)
+        for (Line line: lines)
         {
             for (ArrayList<String> stopIdsList: line.getStopIds())
             {
@@ -77,13 +77,13 @@ public class Stop {
 
     @Override
     public String toString() {
-        return "In " + _commune + "\n"
-        + "Position (lat/lng)" +_lat + " / "
+        return "The station is " + _name
+        + " num " + _num
+        + " with type " + _type + "\n"
+        + "In " + _commune
+        + " at the position (lat/lng)" +_lat + " / "
         + _lng + "\n"
-        + "The lines are " + _lines  +"\n"
-        + " Which name is " + _name + "\n"
-        + " With num " + _num + "\n"
-        + " With type " + _type
-        + " It's hub : " + _isHub + "\n";
+        + "The lineIds are : " + _lineIds + "\n"
+        + " It's hub : " + _isHub + "\n\n";
     }
 }

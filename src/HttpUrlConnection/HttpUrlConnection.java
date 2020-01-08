@@ -20,7 +20,7 @@ public class HttpUrlConnection {
         _userAgent = userAgent;
     }
 
-    public static JSONObject getJsonObjectOfAllRatpData() throws IOException, ParseException {
+    public JSONObject getJsonObjectOfAllRatpData() throws IOException, ParseException {
         /* Declare the url and HttpClient object */
         URL url = new URL(_urlGet);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
