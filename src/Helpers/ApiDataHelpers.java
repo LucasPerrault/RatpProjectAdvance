@@ -41,4 +41,9 @@ public class ApiDataHelpers {
 
         );
     }
+
+    public static boolean isTypeOf(String type, JSONObject ratpDataObject)
+    {
+        return ratpDataObject.get("type").equals(type);
+    }
 }

@@ -33,10 +33,16 @@ public class RatpDataService
         for (String key : (Iterable<String>) ratpObject.keySet()) {
             switch (model) {
                 case "lignes":
-                    data.add(ApiDataHelpers.castObjectToRatpLine((JSONObject) ratpObject.get(key)));
+                    if (ApiDataHelpers.isTypeOf("metro", (JSONObject) ratpObject.get(key)))
+                    {
+                        data.add(ApiDataHelpers.castObjectToRatpLine((JSONObject) ratpObject.get(key)));
+                    }
                     break;
                 case "stations":
-                    data.add(ApiDataHelpers.castObjectToRatpStop((JSONObject) ratpObject.get(key)));
+                    if (ApiDataHelpers.isTypeOf("metro", (JSONObject) ratpObject.get(key)))
+                    {
+                        data.add(ApiDataHelpers.castObjectToRatpStop((JSONObject) ratpObject.get(key)));
+                    }
                     break;
 
 
