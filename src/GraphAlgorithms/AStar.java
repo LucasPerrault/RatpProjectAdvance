@@ -33,7 +33,7 @@ public class AStar
         );
 
         // Create optional priority queueu in order to use Dijkstra
-        Optional<PriorityQueue<Stop>> priorityQueueOptional = new Optional<>(priorityQueue);
+        Optional<PriorityQueue<Stop>> priorityQueueOptional = Optional.of(priorityQueue);
         _dijkstraClass = new Dijkstra(_src, _dest, _networkTransport, priorityQueueOptional);
     }
 
