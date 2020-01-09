@@ -6,17 +6,15 @@ import java.util.HashMap;
 public class NetworkTransport {
     private ArrayList<Line> _lines;
     private ArrayList<Stop> _stops;
-    private ArrayList<Correspondence> _correspondences;
     private double _travelledDistance;
     private HashMap<Stop, Double> _travelledStopsAndDistances = new HashMap<Stop, Double>();
     private HashMap<Stop, Stop> predecessorByStops = new HashMap<Stop, Stop>();
 
 
-    public NetworkTransport(ArrayList<Line> lines, ArrayList<Stop> stops, ArrayList<Correspondence> correspondences)
+    public NetworkTransport(ArrayList<Line> lines, ArrayList<Stop> stops)
     {
         _lines = lines;
         _stops = stops;
-        _correspondences = correspondences;
     }
 
     public ArrayList<Line> getLines()
@@ -27,11 +25,6 @@ public class NetworkTransport {
     public ArrayList<Stop> getStops()
     {
         return _stops;
-    }
-
-    public ArrayList<Correspondence> getCorrespondences()
-    {
-        return _correspondences;
     }
 
     public ArrayList<Stop> getAjdacentsByStop(Stop stop)
@@ -99,8 +92,6 @@ public class NetworkTransport {
         return "The Network contains " + _lines.size()
                 + " lines which are " + _lines
                 + " and " + _stops.size()
-                + " stops which are " + _stops
-                + " and correspondences " + _correspondences
-                + "(" + _correspondences.size() + ").";
+                + " stops which are " + _stops;
     }
 }
