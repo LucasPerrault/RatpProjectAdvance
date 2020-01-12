@@ -1,10 +1,11 @@
 package HttpUrlConnection.model;
 
+import GraphAlgorithms.DistanceHeuristic.StopComparator;
 import Helpers.MathHelpers;
 
 import java.util.ArrayList;
 
-public class Stop {
+public class Stop implements Comparable<Stop>{
 
     private String _commune;
     private String _lat;
@@ -85,6 +86,10 @@ public class Stop {
                 Double.parseDouble(_lat),
                 Double.parseDouble(_lng)
         );
+    }
+
+    public int compareTo(Stop o) {
+        return 0;
     }
 
 
