@@ -5,7 +5,7 @@ import HttpUrlConnection.model.Stop;
 
 import java.util.*;
 
-public class Dijkstra
+public class Dijkstra<Vertex, Edge >
 {
     NetworkTransport _networkTransport;
     Stop _src;
@@ -29,7 +29,7 @@ public class Dijkstra
         {
             priorityQueue = _optionalPriorityQueue.get();
         } else {
-            priorityQueue = new PriorityQueue<Stop>();
+            priorityQueue = new PriorityQueue<>();
         }
         HashMap<Stop, Boolean> cellAreadyVisited = new HashMap<Stop, Boolean>();
         priorityQueue.add(_src);
@@ -52,15 +52,16 @@ public class Dijkstra
                 if(!cellAreadyVisited.containsKey(adjacent))
                 {
                     // Calculate the distance of next vertex
-                    double adjacentDistance = actualStop.getDistanceBetween(adjacent);
+                    double adjacentDistance = _networkTransport.getTravelledDistanceByStop(adjacent);
 
                     // Calculate the new distance
                     double actualDistance = _networkTransport.getTravelledDistanceByStop(actualStop);
-                    double newDistance = actualDistance + adjacentDistance;
+
+                    double newDistance = actualDistance + actualStop.getDistanceBetween(adjacent);
 
                     // Check if the newDistance is inferior of adjacentDistance
-                    if( newDistance < adjacentDistance){
-
+                    if( newDistance < adjacentDistance)
+                    {
                         // Safety
                         priorityQueue.remove(adjacent);
 
@@ -83,12 +84,16 @@ public class Dijkstra
 
         // Initialization
         List<Stop> shortestPath = new LinkedList<Stop>();
+        double shortestPathLength = 0;
         Stop predecessor = _dest;
         shortestPath.add(predecessor);
 
         // Read all the predecessors fill by the algorithm
         while(!predecessor.equals(_src)) {
+            System.out.println(predecessor.getName());
+            shortestPathLength = shortestPathLength + predecessor.getDistanceBetween(_networkTransport.getPredecessorByStop(predecessor));
             predecessor = _networkTransport.getPredecessorByStop(predecessor);
+
             shortestPath.add(predecessor);
         }
 
@@ -96,6 +101,7 @@ public class Dijkstra
         Collections.reverse(shortestPath);
 
         // return the path
+        System.out.println(shortestPathLength);
         return shortestPath;
     }
 
