@@ -50,7 +50,7 @@ public class BreadthFirstSearch
                 shortestPathListToDestination = new ArrayList<Stop>();
             }
 
-            if (currentDestination.isAdjacent(lastStopSave, _networkTransport.getLines())) {
+            if (_networkTransport.getAjdacentsByStop(currentDestination).contains(lastStopSave)) {
                 shortestPathListToDestination.add(lastStopSave);
                 currentDestination = lastStopSave;
             }
@@ -71,7 +71,7 @@ public class BreadthFirstSearch
         }
     }
 
-    private Stack<Stop> getPredecessorStopsPathWithBFS(Stop src) {
+    public Stack<Stop> getPredecessorStopsPathWithBFS(Stop src) {
         Queue<Stop> evaluatedQueue = new LinkedList<Stop>();
         HashMap<Stop, Boolean> cellAlreadyVisited = new HashMap<Stop, Boolean>();
         Stack<Stop> savedQueue = new Stack<Stop>();
