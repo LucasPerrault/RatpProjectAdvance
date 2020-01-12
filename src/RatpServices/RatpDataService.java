@@ -5,10 +5,8 @@ import HttpUrlConnection.HttpUrlConnection;
 import HttpUrlConnection.model.Line;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class RatpDataService
 {
