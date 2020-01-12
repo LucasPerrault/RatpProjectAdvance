@@ -8,7 +8,7 @@ public class NetworkTransport {
     private ArrayList<Stop> _stops;
     private double _travelledDistance;
     private HashMap<Stop, Double> _travelledStopsAndDistances = new HashMap<Stop, Double>();
-    private HashMap<Stop, Stop> predecessorByStops = new HashMap<Stop, Stop>();
+    public HashMap<Stop, Stop> predecessorByStops = new HashMap<Stop, Stop>();
 
 
     public NetworkTransport(ArrayList<Line> lines, ArrayList<Stop> stops)
@@ -31,27 +31,65 @@ public class NetworkTransport {
     {
         ArrayList<Stop> stops = new ArrayList<Stop>();
 
-        for (Line line: _lines)
+        for (Line line: getLinesByLineId(stop.getLineIds()))
         {
             for (ArrayList<String> stopIdsList: line.getStopIds())
             {
-                int currentStopIndex = stopIdsList.indexOf(stop.getNum());
-                if (currentStopIndex == 0)
+                if (stopIdsList.contains(stop.getNum()))
                 {
-                    Stop adjacentStop = _stops.get(currentStopIndex + 1);
-                    stops.add(adjacentStop);
-                } else if(currentStopIndex == (stopIdsList.size() - 1)) {
-                    Stop adjacentStop = getStops().get(currentStopIndex - 1);
-                    stops.add(adjacentStop);
-                } else {
-                    Stop adjacentStopPrevious = getStops().get(currentStopIndex + 1);
-                    stops.add(adjacentStopPrevious);
-                    Stop adjacentStopNext = getStops().get(currentStopIndex - 1);
-                    stops.add(adjacentStopNext);
+                    int currentStopIndex = stopIdsList.indexOf(stop.getNum());
+
+                    if (currentStopIndex == 0)
+                    {
+                        Stop adjacentStop = _stops.get(currentStopIndex + 1);
+                        stops.add(adjacentStop);
+                    } else if(currentStopIndex == (stopIdsList.size() - 1)) {
+                        Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex - 1));
+                        stops.add(adjacentStop);
+                    } else {
+                        Stop adjacentStopPrevious = getStopById(stopIdsList.get(currentStopIndex + 1));
+                        stops.add(adjacentStopPrevious);
+                        Stop adjacentStopNext = getStopById(stopIdsList.get(currentStopIndex - 1));
+                        stops.add(adjacentStopNext);
+                    }
+
                 }
             }
         }
         return stops;
+    }
+
+    private ArrayList<Line> getLinesByLineId(ArrayList<String> lineIds)
+    {
+        ArrayList<Line> linesFound = new ArrayList<>();
+        for (String lineId : lineIds)
+        {
+            for (Line line: _lines)
+            {
+                if (line.getNum().equals(lineId))
+                {
+                    linesFound.add(line);
+                }
+            }
+        }
+        return linesFound;
+    }
+
+    private Stop getStopById(String stopId)
+    {
+        Stop stopFound = null;
+        for (Stop stop : _stops)
+        {
+            if (stop.getNum().equals(stopId))
+            {
+                stopFound = stop;
+            }
+        }
+        if (stopFound == null)
+        {
+            System.out.println("Ooops, you are looking for stop id which not exist");
+        }
+        return stopFound;
     }
 
     public HashMap<Stop, Double> getTravelledStopsAndDistances()
