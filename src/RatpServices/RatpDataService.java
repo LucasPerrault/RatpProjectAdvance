@@ -15,7 +15,7 @@ public class RatpDataService
 
     public RatpDataService(String GET_URL, String USER_AGENT) throws  IOException,ParseException  {
         _httpClient = new HttpUrlConnection(GET_URL, USER_AGENT);
-        _ratpData = _httpClient.getJsonObjectOfAllRatpData();
+        _ratpData = _httpClient.getAllRatpData();
 
     }
    
