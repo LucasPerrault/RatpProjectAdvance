@@ -1,27 +1,21 @@
-package GraphAlgorithms;
+package GraphAlgorithms.WeightedAlgorithmGraph;
 
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
-
 import java.util.*;
 
-public class Dijkstra<Vertex, Edge >
+public class Dijkstra extends AbstractAlgorithmWeightedGraph
 {
-    NetworkTransport _networkTransport;
-    Stop _src;
-    Stop _dest;
     Optional<PriorityQueue<Stop>> _optionalPriorityQueue;
 
     public Dijkstra(Stop src, Stop dest, NetworkTransport networkTransport, Optional<PriorityQueue<Stop>> optionalPriorityQueue)
     {
-        _src = src;
-        _dest = dest;
-        _networkTransport = networkTransport;
+        super(src, dest, networkTransport);
         _optionalPriorityQueue = optionalPriorityQueue;
         init();
     }
 
-    private void init()
+    public void init()
     {
         // Initialization of priority queue.
         PriorityQueue<Stop> priorityQueue;
@@ -78,31 +72,6 @@ public class Dijkstra<Vertex, Edge >
             }
             cellAreadyVisited.put(actualStop, true);
         }
-    }
-
-    public List<Stop> getShortestPath() {
-
-        // Initialization
-        List<Stop> shortestPath = new LinkedList<Stop>();
-        double shortestPathLength = 0;
-        Stop predecessor = _dest;
-        shortestPath.add(predecessor);
-
-        // Read all the predecessors fill by the algorithm
-        while(!predecessor.equals(_src)) {
-            System.out.println(predecessor.getName());
-            shortestPathLength = shortestPathLength + predecessor.getDistanceBetween(_networkTransport.getPredecessorByStop(predecessor));
-            predecessor = _networkTransport.getPredecessorByStop(predecessor);
-
-            shortestPath.add(predecessor);
-        }
-
-        // Reverse the path for reading in the good sens
-        Collections.reverse(shortestPath);
-
-        // return the path
-        System.out.println(shortestPathLength);
-        return shortestPath;
     }
 
 }

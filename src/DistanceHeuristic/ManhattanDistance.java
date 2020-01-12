@@ -1,4 +1,4 @@
-package GraphAlgorithms.DistanceHeuristic;
+package DistanceHeuristic;
 
 import HttpUrlConnection.model.Stop;
 
