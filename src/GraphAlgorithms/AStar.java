@@ -1,6 +1,7 @@
 package GraphAlgorithms;
 
 import GraphAlgorithms.DistanceHeuristic.DistanceHeuristic;
+import GraphAlgorithms.DistanceHeuristic.ManhattanDistance;
 import GraphAlgorithms.DistanceHeuristic.StopComparator;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
@@ -12,7 +13,7 @@ public class AStar
     Stop _src;
     Stop _dest;
     NetworkTransport _networkTransport;
-    DistanceHeuristic<Stop> _heuristicDistance;
+    DistanceHeuristic<Stop> _heuristicDistance = new ManhattanDistance();
     Dijkstra _dijkstraClass;
 
 
