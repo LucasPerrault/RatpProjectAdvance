@@ -39,7 +39,7 @@ public class RatpDataService
                     }
                     break;
                 case "stations":
-                    if (ApiDataHelpers.isTypeOf("metro", (JSONObject) ratpObject.get(key)))
+                    if (ApiDataHelpers.isTypeOfLineForStation("metro", (JSONObject) ratpObject.get(key)))
                     {
                         data.add(ApiDataHelpers.castObjectToRatpStop((JSONObject) ratpObject.get(key)));
                     }
