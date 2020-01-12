@@ -3,9 +3,9 @@ package GraphAlgorithms.DistanceHeuristic;
 import HttpUrlConnection.model.Stop;
 
 public class ManhattanDistance implements DistanceHeuristic<Stop> {
-    public int distance(Stop v0, Stop v1) {
+    public double distance(Stop v0, Stop v1) {
         // return the estimation of shortestPath
-        return (Math.abs(Integer.parseInt(v0.getLat()) - Integer.parseInt(v1.getLat())) +
-                Math.abs(Integer.parseInt(v0.getLng()) - Integer.parseInt(v1.getLng())));
+        return (Math.abs(Double.parseDouble(v0.getLat()) - Double.parseDouble(v1.getLat())) +
+                Math.abs(Double.parseDouble(v0.getLng()) - Double.parseDouble(v1.getLng())));
     }
 }
