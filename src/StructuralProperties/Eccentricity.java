@@ -1,14 +1,16 @@
 package StructuralProperties;
 
+import DistanceHeuristic.DistanceHeuristic;
 import DistanceHeuristic.ManhattanDistance;
 import DistanceHeuristic.StopComparatorForLongestDistance;
+import DistanceHeuristic.StopComparatorForShortestDistance;
 import GraphAlgorithms.WeightedAlgorithmGraph.Dijkstra;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
 import java.util.*;
 
-public class Eccentricity
+public class Eccentricity implements StructualPropertie
 {
     private NetworkTransport _networkTransport;
     private Stop _src;
@@ -24,18 +26,11 @@ public class Eccentricity
 
     private void init()
     {
+        Dijkstra dijkstra = new Dijkstra(_src, _networkTransport, Optional.empty());
+        dijkstra.init(true);
         for (Stop dest: _networkTransport.getStops())
         {
-            PriorityQueue<Stop> priorityQueue = new PriorityQueue<Stop>(
-                    1000,
-                    new StopComparatorForLongestDistance(new ManhattanDistance(), dest)
-            );
-
-            // Create optional priority queueu in order to use Dijkstra
-            Optional<PriorityQueue<Stop>> priorityQueueOptional = Optional.of(priorityQueue);
-            Dijkstra dijkstra = new Dijkstra(_src, dest, _networkTransport, priorityQueueOptional);
-
-            List<Stop> newStopListPath = dijkstra.getShortestPath();
+            List<Stop> newStopListPath = dijkstra.getShortestPath(dest);
             double newLengthPath = dijkstra.getShortestPathLength(newStopListPath);
 
             if (_longestLengthPath < newLengthPath)

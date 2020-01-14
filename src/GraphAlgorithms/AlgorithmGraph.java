@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface AlgorithmGraph
 {
-    void init();
-    List<Stop> getShortestPath();
+    void init(Boolean withoutRecursivity);
+    List<Stop> getShortestPath(Stop dest);
 }

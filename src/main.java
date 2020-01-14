@@ -4,6 +4,8 @@ import HttpUrlConnection.model.Line;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 import RatpServices.RatpDataService;
+import StructuralProperties.Diameter;
+import StructuralProperties.Eccentricity;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -23,11 +25,11 @@ public class main {
 
         RatpFactory ratpFactory = new RatpFactory(lines, stops);
         Stop srcStop = ratpFactory.getStopFactory();
-        Stop destStop = ratpFactory.getStopFactory();
+        //Stop destStop = ratpFactory.getStopFactory();
 
-        AStar AStar = new AStar(srcStop, destStop, networkTransport);
+        /*AStar AStar = new AStar(srcStop, destStop, networkTransport);
         AStar.init();
-        AStar.getShortestPath();
+        AStar.printShortestPath(AStar.getShortestPath());*/
 
         //System.out.println("\n\n");
 
@@ -40,5 +42,13 @@ public class main {
         //BreadthFirstSearch BFS = new BreadthFirstSearch(srcStop, destStop, networkTransport);
         //BFS.init()
         //System.out.println(BFS.getPredecessorStopsPathWithBFS(srcStop));
+
+        //System.out.println("\n\n");
+
+        Eccentricity eccentricity = new Eccentricity(networkTransport, srcStop);
+        System.out.println(eccentricity.getLength());
+
+        /*Diameter diameter = new Diameter(networkTransport);
+        System.out.println(diameter.getLength());*/
     }
 }

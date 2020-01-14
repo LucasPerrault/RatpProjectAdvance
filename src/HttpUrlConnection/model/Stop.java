@@ -1,6 +1,5 @@
 package HttpUrlConnection.model;
 
-import DistanceHeuristic.StopComparator;
 import Helpers.MathHelpers;
 
 import java.util.ArrayList;

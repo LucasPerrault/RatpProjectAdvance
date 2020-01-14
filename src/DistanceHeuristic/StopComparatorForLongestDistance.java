@@ -18,7 +18,7 @@ public class StopComparatorForLongestDistance implements Comparator<Stop>
         return compareWithDistanceHeuristic(c0, c1);
     }
 
-        public int compareWithDistanceHeuristic(Stop c0, Stop c1) {
+    public int compareWithDistanceHeuristic(Stop c0, Stop c1) {
         boolean isSuperiorOfTheFirstStop = _distanceHeuristic.distance(c0, _destination) < _distanceHeuristic.distance(c1, _destination);
         boolean isInferiorOfTheFirstStop = _distanceHeuristic.distance(c0, _destination) > _distanceHeuristic.distance(c1, _destination);
 
