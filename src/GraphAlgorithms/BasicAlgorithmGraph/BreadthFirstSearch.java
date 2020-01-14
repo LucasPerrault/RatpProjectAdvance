@@ -20,7 +20,7 @@ public class BreadthFirstSearch implements AlgorithmGraph
         _networkTransport = networkTransport;
     }
 
-    public void init() {
+    public void init(Boolean withoutRecursivity) {
         Queue<Stop> evaluatedQueue = new LinkedList<Stop>();
         HashMap<Stop, Boolean> cellAlreadyVisited = new HashMap<Stop, Boolean>();
 
@@ -29,6 +29,41 @@ public class BreadthFirstSearch implements AlgorithmGraph
         _predessorStopsPath.add(_src);
         cellAlreadyVisited.put(_src, true);
 
+        long startTime = System.currentTimeMillis();
+        if (withoutRecursivity) {
+            BFSWithoutRecursivity(evaluatedQueue, cellAlreadyVisited);
+        } else {
+            BFSRecursive(evaluatedQueue, cellAlreadyVisited);
+        }
+        long stopTime = System.currentTimeMillis();
+        System.out.println("\nPermorfance of Dijkstra algorithm : " + (stopTime - startTime) + "ms\n");
+    }
+
+    private void BFSRecursive(Queue<Stop> evaluatedQueue,  HashMap<Stop, Boolean> cellAlreadyVisited)
+    {
+        if (evaluatedQueue.isEmpty())
+        {
+            return;
+        }
+
+        Stop stopInFrontOfTheQueue = evaluatedQueue.poll();
+        List<Stop> adjacentList = _networkTransport.getAjdacentsByStop(stopInFrontOfTheQueue);
+
+        /* Show the adjacents of vertex which is evaluating */
+        for (Stop adjacent : adjacentList) {
+
+            /* Check if it's already visited */
+            if (!cellAlreadyVisited.containsKey(adjacent)) {
+                evaluatedQueue.add(adjacent);
+                cellAlreadyVisited.put(adjacent, true);
+                _predessorStopsPath.add(adjacent);
+            }
+        }
+        BFSRecursive(evaluatedQueue, cellAlreadyVisited);
+    }
+
+    private void BFSWithoutRecursivity(Queue<Stop> evaluatedQueue,  HashMap<Stop, Boolean> cellAlreadyVisited)
+    {
         /* Treatment of potential stop visited */
         while(!evaluatedQueue.isEmpty()) {
             Stop stopInFrontOfTheQueue = evaluatedQueue.poll();
@@ -47,20 +82,19 @@ public class BreadthFirstSearch implements AlgorithmGraph
         }
     }
 
-    public List<Stop> getShortestPath() {
-
+    public List<Stop> getShortestPath(Stop dest) {
         /* Check if the path is not empty */
         if (_predessorStopsPath.isEmpty()) return null;
 
         /* Initialization */
         ArrayList<Stop> shortestPathListToDestination = new ArrayList<Stop>();
-        Stop currentDestination = _dest;
+        Stop currentDestination = dest;
 
         /* Treatment */
         while(!_predessorStopsPath.isEmpty()) {
             Stop lastStopSave = _predessorStopsPath.pop();
 
-            if (lastStopSave.equals(_dest)) {
+            if (lastStopSave.equals(dest)) {
                 shortestPathListToDestination = new ArrayList<Stop>();
             }
 
