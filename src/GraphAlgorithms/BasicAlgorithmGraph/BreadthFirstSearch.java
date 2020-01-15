@@ -9,14 +9,12 @@ import java.util.*;
 public class BreadthFirstSearch implements AlgorithmGraph
 {
     private Stop _src;
-    private Stop _dest;
     private NetworkTransport _networkTransport;
-    private Stack<Stop> _predessorStopsPath;
+    private Stack<Stop> _predessorStopsPath = new Stack<Stop>();
 
-    public BreadthFirstSearch(Stop src, Stop dest, NetworkTransport networkTransport)
+    public BreadthFirstSearch(Stop src, NetworkTransport networkTransport)
     {
         _src = src;
-        _dest = dest;
         _networkTransport = networkTransport;
     }
 
@@ -36,7 +34,7 @@ public class BreadthFirstSearch implements AlgorithmGraph
             BFSRecursive(evaluatedQueue, cellAlreadyVisited);
         }
         long stopTime = System.currentTimeMillis();
-        System.out.println("\nPermorfance of Dijkstra algorithm : " + (stopTime - startTime) + "ms\n");
+        System.out.println("\nPermorfance of BFS algorithm : " + (stopTime - startTime) + "ms\n");
     }
 
     private void BFSRecursive(Queue<Stop> evaluatedQueue,  HashMap<Stop, Boolean> cellAlreadyVisited)
@@ -89,16 +87,17 @@ public class BreadthFirstSearch implements AlgorithmGraph
         /* Initialization */
         ArrayList<Stop> shortestPathListToDestination = new ArrayList<Stop>();
         Stop currentDestination = dest;
+        shortestPathListToDestination.add(dest);
+        Stack<Stop> _savedPredecessorStops = (Stack<Stop>)_predessorStopsPath.clone();
 
         /* Treatment */
-        while(!_predessorStopsPath.isEmpty()) {
-            Stop lastStopSave = _predessorStopsPath.pop();
+        while(!_savedPredecessorStops.isEmpty()) {
+            Stop lastStopSave = _savedPredecessorStops.pop();
 
-            if (lastStopSave.equals(dest)) {
-                shortestPathListToDestination = new ArrayList<Stop>();
-            }
+            List<Stop> adjacentStops = _networkTransport.getAjdacentsByStop(currentDestination);
+            boolean isAdjacent = adjacentStops.contains(lastStopSave);
 
-            if (_networkTransport.getAjdacentsByStop(currentDestination).contains(lastStopSave)) {
+            if (isAdjacent) {
                 shortestPathListToDestination.add(lastStopSave);
                 currentDestination = lastStopSave;
             }
@@ -106,16 +105,31 @@ public class BreadthFirstSearch implements AlgorithmGraph
 
         /* Return the shortest path */
         Collections.reverse(shortestPathListToDestination);
+
         return shortestPathListToDestination;
     }
 
-    public boolean areConnected()
+    public double getShortestPathLength(List<Stop> stops) {
+        return stops.size();
+    }
+
+    public boolean areConnected(Stop dest)
     {
         /* Check if dest exist on the path */
-        if (_predessorStopsPath.contains(_dest)) {
+        if (_predessorStopsPath.contains(dest)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public void printShortestPathAndLength(List<Stop> stops, double length, Stop dest)
+    {
+        System.out.println("\n The shortest path of " + _src.getName() + " to " + dest.getName() + " is : \n");
+        for (Stop stop: stops)
+        {
+            System.out.println(stop.getName());
+        }
+        System.out.println("Le nombre de station visité est : " + length);
     }
 }

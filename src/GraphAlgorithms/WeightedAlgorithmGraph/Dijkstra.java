@@ -1,5 +1,6 @@
 package GraphAlgorithms.WeightedAlgorithmGraph;
 
+import GraphAlgorithms.AlgorithmGraph;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 import java.util.*;

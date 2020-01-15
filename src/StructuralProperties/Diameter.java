@@ -1,44 +1,66 @@
 package StructuralProperties;
 
+import Factory.RatpFactory;
+import GraphAlgorithms.AlgorithmGraph;
+import GraphAlgorithms.BasicAlgorithmGraph.BreadthFirstSearch;
+import GraphAlgorithms.WeightedAlgorithmGraph.Dijkstra;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Optional;
 
-public class Diameter implements StructualPropertie
+public class Diameter extends AbstractStructuralPropertie
 {
-    protected double _lengthPath = 0;
-    protected List<Stop> _stopList;
+    private RatpFactory _ratpFactory = new RatpFactory();
 
     public Diameter(NetworkTransport networkTransport)
     {
-        init(networkTransport);
+        _ratpFactory.inputGraphTypeForEccentricity();
+        int index = _ratpFactory._indexOfGraphType;
+        switch (index) {
+            case(1):
+                unweightedGraphDiameter(networkTransport);
+                break;
+            case(2):
+                weightedGraphDiameter(networkTransport);
+                break;
+        }
     }
 
-    private void init(NetworkTransport networkTransport)
+    private void weightedGraphDiameter(NetworkTransport networkTransport)
     {
+
         for (Stop stop: networkTransport.getStops())
         {
-            Eccentricity eccentricity = new Eccentricity(networkTransport, stop);
+            Eccentricity eccentricity = new Eccentricity(
+                    networkTransport,
+                    stop,
+                    Optional.of(new Dijkstra(stop, networkTransport, Optional.empty()))
+            );
 
             if (_lengthPath < eccentricity.getLength())
             {
                 _lengthPath = eccentricity.getLength();
-                _stopList = eccentricity.getPath();
+                _path = eccentricity.getPath();
             }
         }
     }
 
-
-    public double getLength()
+    private void unweightedGraphDiameter(NetworkTransport networkTransport)
     {
-        return _lengthPath;
-    }
+        for (Stop stop: networkTransport.getStops())
+        {
+            Eccentricity eccentricity = new Eccentricity(
+                    networkTransport,
+                    stop,
+                    Optional.of(new BreadthFirstSearch(stop, networkTransport))
+            );
 
-    public List<Stop> getPath()
-    {
-        return _stopList;
+            if (_lengthPath < eccentricity.getLength())
+            {
+                _lengthPath = eccentricity.getLength();
+                _path = eccentricity.getPath();
+            }
+        }
     }
 }

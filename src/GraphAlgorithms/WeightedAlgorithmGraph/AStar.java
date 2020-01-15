@@ -29,6 +29,7 @@ public class AStar extends AbstractAlgorithmWeightedGraph
 
         // Create optional priority queueu in order to use Dijkstra
         Optional<PriorityQueue<Stop>> priorityQueueOptional = Optional.of(priorityQueue);
-        new Dijkstra(_src, _networkTransport, priorityQueueOptional);
+        Dijkstra dijkstra = new Dijkstra(_src, _networkTransport, priorityQueueOptional);
+        dijkstra.init(withoutRecursivity);
     }
 }

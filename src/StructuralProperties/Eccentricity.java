@@ -1,53 +1,49 @@
 package StructuralProperties;
 
-import DistanceHeuristic.DistanceHeuristic;
-import DistanceHeuristic.ManhattanDistance;
-import DistanceHeuristic.StopComparatorForLongestDistance;
-import DistanceHeuristic.StopComparatorForShortestDistance;
-import GraphAlgorithms.WeightedAlgorithmGraph.Dijkstra;
+import Factory.RatpFactory;
+import GraphAlgorithms.AlgorithmGraph;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
 import java.util.*;
 
-public class Eccentricity implements StructualPropertie
+public class Eccentricity extends AbstractStructuralPropertie
 {
+    private RatpFactory _ratpFactory = new RatpFactory();
     private NetworkTransport _networkTransport;
     private Stop _src;
-    private List<Stop> _longestStopListPath;
-    private double _longestLengthPath = 0;
+    private Optional<AlgorithmGraph> _algorithmGraphOptional;
 
-    public Eccentricity(NetworkTransport networkTransport, Stop src)
+    public Eccentricity(NetworkTransport networkTransport, Stop src, Optional<AlgorithmGraph> algorithmGraphOptional)
     {
         _networkTransport = networkTransport;
         _src = src;
+        _algorithmGraphOptional = algorithmGraphOptional;
+
         init();
     }
 
     private void init()
     {
-        Dijkstra dijkstra = new Dijkstra(_src, _networkTransport, Optional.empty());
-        dijkstra.init(true);
+        AlgorithmGraph algorithmGraph;
+        if (_algorithmGraphOptional.isEmpty())
+        {
+            algorithmGraph = _ratpFactory.getAlgorithmForEccentricityFactory(_networkTransport, _src);
+        } else {
+            algorithmGraph = _algorithmGraphOptional.get();
+        }
+
+        algorithmGraph.init(true);
         for (Stop dest: _networkTransport.getStops())
         {
-            List<Stop> newStopListPath = dijkstra.getShortestPath(dest);
-            double newLengthPath = dijkstra.getShortestPathLength(newStopListPath);
+            List<Stop> newStopListPath = algorithmGraph.getShortestPath(dest);
+            double newLengthPath = algorithmGraph.getShortestPathLength(newStopListPath);
 
-            if (_longestLengthPath < newLengthPath)
+            if (_lengthPath < newLengthPath)
             {
-                _longestLengthPath = newLengthPath;
-                _longestStopListPath = newStopListPath;
+                _lengthPath = newLengthPath;
+                _path = newStopListPath;
             }
         }
-    }
-
-    public double getLength()
-    {
-        return _longestLengthPath;
-    }
-
-    public List<Stop> getPath()
-    {
-        return _longestStopListPath;
     }
 }

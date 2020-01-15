@@ -4,7 +4,6 @@ import GraphAlgorithms.AlgorithmGraph;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +33,7 @@ public abstract class AbstractAlgorithmWeightedGraph implements AlgorithmGraph
         return shortestPathLength;
     }
 
-    public void printShortestPath(List<Stop> stops, Stop dest)
+    public void printShortestPathAndLength(List<Stop> stops, double length, Stop dest)
     {
         Collections.reverse(stops);
         System.out.println("\n The shortest path of " + _src.getName() + " to " + dest.getName() + " is : \n");
@@ -42,7 +41,7 @@ public abstract class AbstractAlgorithmWeightedGraph implements AlgorithmGraph
         {
             System.out.println("- " + stop.getName() + " with distance of " + _networkTransport.getTravelledDistanceByStop(stop) + "km.");
         }
-        System.out.println("The total length of shortest path is " + getShortestPathLength(stops) + "km.");
+        System.out.println("The total length of shortest path is " + length + "km.");
     }
 
     public List<Stop> getShortestPath(Stop dest) {

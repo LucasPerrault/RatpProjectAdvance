@@ -1,42 +1,64 @@
 package StructuralProperties;
 
+import Factory.RatpFactory;
+import GraphAlgorithms.BasicAlgorithmGraph.BreadthFirstSearch;
+import GraphAlgorithms.WeightedAlgorithmGraph.Dijkstra;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 
-import java.util.List;
+import java.util.Optional;
 
-public class Radius implements StructualPropertie
+public class Radius extends AbstractStructuralPropertie
 {
-    private NetworkTransport _networkTransport;
-    private double _shortestLengthPath = 0;
-    private List<Stop> _shortestStopListPath;
+    private RatpFactory _ratpFactory = new RatpFactory();
 
     public Radius(NetworkTransport networkTransport)
     {
-        for (Stop stop: _networkTransport.getStops())
-        {
-            Eccentricity eccentricity = new Eccentricity(_networkTransport, stop);
+        _ratpFactory.inputGraphTypeForEccentricity();
+        int index = _ratpFactory._indexOfGraphType;
+        switch (index) {
+            case(1):
+                unweightedGraphRadius(networkTransport);
+                break;
+            case(2):
+                weightedGraphRadius(networkTransport);
+                break;
+        }
+    }
 
-            if (_shortestLengthPath > eccentricity.getLength())
+    private void weightedGraphRadius(NetworkTransport networkTransport)
+    {
+        for (Stop stop: networkTransport.getStops())
+        {
+            Eccentricity eccentricity = new Eccentricity(
+                    networkTransport,
+                    stop,
+                    Optional.of(new Dijkstra(stop, networkTransport, Optional.empty()))
+            );
+
+            if (_lengthPath > eccentricity.getLength())
             {
-                _shortestLengthPath = eccentricity.getLength();
-                _shortestStopListPath = eccentricity.getPath();
+                _lengthPath = eccentricity.getLength();
+                _path = eccentricity.getPath();
             }
         }
     }
 
-    private void init()
+    private void unweightedGraphRadius(NetworkTransport networkTransport)
     {
+        for (Stop stop: networkTransport.getStops())
+        {
+            Eccentricity eccentricity = new Eccentricity(
+                    networkTransport,
+                    stop,
+                    Optional.of(new BreadthFirstSearch(stop, networkTransport))
+            );
 
-    }
-
-    public double getLength()
-    {
-        return _shortestLengthPath;
-    }
-
-    public List<Stop> getPath()
-    {
-        return _shortestStopListPath;
+            if (_lengthPath > eccentricity.getLength())
+            {
+                _lengthPath = eccentricity.getLength();
+                _path = eccentricity.getPath();
+            }
+        }
     }
 }
