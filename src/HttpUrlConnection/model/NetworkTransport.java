@@ -75,7 +75,7 @@ public class NetworkTransport {
         return linesFound;
     }
 
-    private Stop getStopById(String stopId)
+    public Stop getStopById(String stopId)
     {
         Stop stopFound = null;
         for (Stop stop : _stops)
