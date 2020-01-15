@@ -12,6 +12,7 @@ import StructuralProperties.Eccentricity;
 import StructuralProperties.Radius;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -41,9 +42,10 @@ public class main {
         Stop src = ratpFactory.getStopFactory(stops);
         Stop dest = ratpFactory.getStopFactory(stops);
 
+        System.out.println(networkTransport.getAjdacentsByStop(src));
 
             // B.1 Graph Factory :
-        AlgorithmGraph algorithmGraph = ratpFactory.getAlgorithmFactory(networkTransport, src, dest);
+        /*AlgorithmGraph algorithmGraph = ratpFactory.getAlgorithmFactory(networkTransport, src, dest);
 
             // B.2 Initialization of algorithm with
 
@@ -83,6 +85,6 @@ public class main {
         List<Stop> radiusPath = radius.getPath();
         double radiusLength = radius.getLength();
 
-        radius.printPathAndLength(radiusPath, radiusLength);
+        radius.printPathAndLength(radiusPath, radiusLength);*/
     }
 }
