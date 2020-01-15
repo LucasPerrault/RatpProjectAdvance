@@ -139,7 +139,7 @@ public class SimpleMap extends Application {
                         Float.parseFloat( stop.getLat() ) ,
                         color );
                 //To Draw lines we get Adjacent Stops
-                 ArrayList<Stop> adjStops = network.getAjdacentsByStop(stop);
+                 ArrayList<Stop> adjStops = network.getAdjacentsByStopAndLine(stop,line);
                 for (Stop adjStop:
                      adjStops) {
                     Stop[]   stop2toDraw = {stop,adjStop};
@@ -182,8 +182,8 @@ public class SimpleMap extends Application {
         // Add overlay
         setupGraphicsOverlay();
         /* ** ADD ** */
-        addPointGraphic();
-        addPolylineGraphic();
+      //  addPointGraphic();
+       // addPolylineGraphic();
         drawStop();
         mapView.setMap(map);
 

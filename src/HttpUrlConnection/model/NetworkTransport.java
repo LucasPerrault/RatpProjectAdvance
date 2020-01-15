@@ -41,7 +41,8 @@ public class NetworkTransport {
 
                     if (currentStopIndex == 0)
                     {
-                        Stop adjacentStop = _stops.get(currentStopIndex + 1);
+                        Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex + 1));
+
                         stops.add(adjacentStop);
                     } else if(currentStopIndex == (stopIdsList.size() - 1)) {
                         Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex - 1));
@@ -58,7 +59,32 @@ public class NetworkTransport {
         }
         return stops;
     }
+    public ArrayList<Stop> getAdjacentsByStopAndLine(Stop stop, Line line)
+    {
+        ArrayList<Stop> stops = new ArrayList<Stop>();
+        for (ArrayList<String> stopIdsList: line.getStopIds())
+        {
+            if (stopIdsList.contains(stop.getNum()))
+            {
+                int currentStopIndex = stopIdsList.indexOf(stop.getNum());
+                if (currentStopIndex == 0)
+                {
+                    Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex + 1));
+                    stops.add(adjacentStop);
+                } else if(currentStopIndex == (stopIdsList.size() - 1)) {
+                    Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex - 1));
+                    stops.add(adjacentStop);
+                } else {
+                    Stop adjacentStopPrevious = getStopById(stopIdsList.get(currentStopIndex + 1));
+                    stops.add(adjacentStopPrevious);
+                    Stop adjacentStopNext = getStopById(stopIdsList.get(currentStopIndex - 1));
+                    stops.add(adjacentStopNext);
+                }
 
+            }
+        }
+        return stops;
+    }
     private ArrayList<Line> getLinesByLineId(ArrayList<String> lineIds)
     {
         ArrayList<Line> linesFound = new ArrayList<>();
