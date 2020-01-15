@@ -1,8 +1,10 @@
 package HttpUrlConnection.model;
 
+import Helpers.MathHelpers;
+
 import java.util.ArrayList;
 
-public class Stop {
+public class Stop implements Comparable<Stop>{
 
     private String _commune;
     private String _lat;
@@ -74,6 +76,21 @@ public class Stop {
         }
         return isAdjacent;
     }
+
+    public double getDistanceBetween(Stop stop)
+    {
+        return MathHelpers.distanceInKilometers(
+                Double.parseDouble(stop.getLat()),
+                Double.parseDouble(stop.getLng()),
+                Double.parseDouble(_lat),
+                Double.parseDouble(_lng)
+        );
+    }
+
+    public int compareTo(Stop o) {
+        return 0;
+    }
+
 
     @Override
     public String toString() {

@@ -5,10 +5,8 @@ import HttpUrlConnection.HttpUrlConnection;
 import HttpUrlConnection.model.Line;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class RatpDataService
 {
@@ -17,7 +15,7 @@ public class RatpDataService
 
     public RatpDataService(String GET_URL, String USER_AGENT) throws  IOException,ParseException  {
         _httpClient = new HttpUrlConnection(GET_URL, USER_AGENT);
-        _ratpData = _httpClient.getJsonObjectOfAllRatpData();
+        _ratpData = _httpClient.getAllRatpData();
 
     }
    
@@ -39,7 +37,7 @@ public class RatpDataService
                     }
                     break;
                 case "stations":
-                    if (ApiDataHelpers.isTypeOf("metro", (JSONObject) ratpObject.get(key)))
+                    if (ApiDataHelpers.isTypeOfLineForStation("metro", (JSONObject) ratpObject.get(key)))
                     {
                         data.add(ApiDataHelpers.castObjectToRatpStop((JSONObject) ratpObject.get(key)));
                     }

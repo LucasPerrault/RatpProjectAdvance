@@ -51,4 +51,14 @@ public class ApiDataHelpers {
     {
         return ratpDataObject.get("type").equals(type);
     }
+
+    /*
+    /!\ Some station's type are wrong. Puteaux's station contains a subway and rer but it's type is RER... /!\
+    Well, we need to check the line key of station
+     */
+    public static boolean isTypeOfLineForStation(String type, JSONObject ratpDataObject)
+    {
+        HashMap<String, ArrayList<String>> lines = (HashMap<String, ArrayList<String>>)ratpDataObject.get("lignes");
+        return lines.containsKey(type);
+    }
 }
