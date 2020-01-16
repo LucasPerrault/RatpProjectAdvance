@@ -35,7 +35,7 @@ public class main {
 
             // A.2 Graph construction in UI
         NetworkTransport networkTransport = new NetworkTransport(lines, stops);
-        
+
 
 
         // B. Algorithms and Shortest Path
@@ -47,7 +47,8 @@ public class main {
             // B.1 Graph Factory :
         AlgorithmGraph algorithmGraph = ratpFactory.getAlgorithmFactory(networkTransport, src, dest);
 
-            // B.2 Initialization of algorithm with
+
+        // B.2 Initialization of algorithm with
 
                 // B.2.1 Recursivity. (check boolean value)
         long startTime = System.currentTimeMillis();
@@ -61,16 +62,19 @@ public class main {
         long stopTimeIt = System.currentTimeMillis();
         System.out.println("\nPermorfance algorithm non-recursif : " + (stopTimeIt - startTimeIt) + "ms\n");
 
-            // B.3 Shortest path and length.
+        // B.3 Shortest path and length.
         List<Stop> shortestPath = algorithmGraph.getShortestPath(dest);
         double length = algorithmGraph.getShortestPathLength(shortestPath);
 
-            // B.4 Print them
+        // B.4 Print them
         algorithmGraph.printShortestPathAndLength(shortestPath, length, dest);
 
+        //Ui interaction
+        SimpleMap map = new SimpleMap(shortestPath, stops, lines, networkTransport);
+        map.main();
 
         // C. Structural properties
-            // C.1 Eccentricity
+        // C.1 Eccentricity
         System.out.println("\n\nEccentricity part : ----------------------------------------------\n");
         Eccentricity eccentricity = new Eccentricity(networkTransport, src, Optional.empty());
         List<Stop> eccentricityPath = eccentricity.getPath();
