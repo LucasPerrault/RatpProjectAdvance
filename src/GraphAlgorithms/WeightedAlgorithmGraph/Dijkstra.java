@@ -1,6 +1,5 @@
 package GraphAlgorithms.WeightedAlgorithmGraph;
 
-import GraphAlgorithms.AlgorithmGraph;
 import HttpUrlConnection.model.NetworkTransport;
 import HttpUrlConnection.model.Stop;
 import java.util.*;
@@ -28,14 +27,11 @@ public class Dijkstra extends AbstractAlgorithmWeightedGraph
         // Set distance 0 for source
         _networkTransport.setTravelledDistanceByStop(_src, 0.0);
 
-        long startTime = System.currentTimeMillis();
         if (withoutRecursivity) {
             dijkstraWithoutRecursivity(priorityQueue, cellAreadyVisited);
         } else {
             dijkstraRecursive(priorityQueue, cellAreadyVisited);
         }
-        long stopTime = System.currentTimeMillis();
-        System.out.println("\nPermorfance of Dijkstra algorithm : " + (stopTime - startTime) + "ms\n");
     }
 
 

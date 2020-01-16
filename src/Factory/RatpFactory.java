@@ -64,7 +64,7 @@ public class RatpFactory
             Scanner scan = new Scanner(System.in);
             Boolean hasALgorithm = false;
             System.out.println("Please choose the number which corresponded at your algorithm in order to find the shortestPath : ");
-            System.out.println("Instructions : \n [1]: Breadth First Search \n [2] Dijkstra \n [3]A*");
+            System.out.println("Instructions : \n [1]: Breadth First Search \n [2]: Dijkstra \n [3]: A*");
             while(!hasALgorithm)
             {
                 try {
