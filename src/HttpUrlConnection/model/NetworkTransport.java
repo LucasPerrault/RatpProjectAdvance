@@ -38,11 +38,9 @@ public class NetworkTransport {
                 if (stopIdsList.contains(stop.getNum()))
                 {
                     int currentStopIndex = stopIdsList.indexOf(stop.getNum());
-
                     if (currentStopIndex == 0)
                     {
                         Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex + 1));
-
                         stops.add(adjacentStop);
                     } else if(currentStopIndex == (stopIdsList.size() - 1)) {
                         Stop adjacentStop = getStopById(stopIdsList.get(currentStopIndex - 1));

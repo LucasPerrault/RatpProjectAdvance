@@ -20,11 +20,6 @@ public class Eccentricity extends AbstractStructuralPropertie
         _src = src;
         _algorithmGraphOptional = algorithmGraphOptional;
 
-        init();
-    }
-
-    private void init()
-    {
         AlgorithmGraph algorithmGraph;
         if (_algorithmGraphOptional.isEmpty())
         {
@@ -32,18 +27,31 @@ public class Eccentricity extends AbstractStructuralPropertie
         } else {
             algorithmGraph = _algorithmGraphOptional.get();
         }
+        algorithmGraph.init(false);
 
-        algorithmGraph.init(true);
-        for (Stop dest: _networkTransport.getStops())
-        {
-            List<Stop> newStopListPath = algorithmGraph.getShortestPath(dest);
-            double newLengthPath = algorithmGraph.getShortestPathLength(newStopListPath);
+        Queue<Stop> stopsQueue = new LinkedList<Stop>(networkTransport.getStops());
+        init(stopsQueue, algorithmGraph);
 
-            if (_lengthPath < newLengthPath)
-            {
-                _lengthPath = newLengthPath;
-                _path = newStopListPath;
-            }
-        }
     }
+
+    private void init(Queue<Stop> stopQueue, AlgorithmGraph algorithmGraph)
+    {
+
+        if (stopQueue.isEmpty()) {
+            return;
+        }
+
+        Stop dest = stopQueue.poll();
+
+        List<Stop> newStopListPath = algorithmGraph.getShortestPath(dest);
+        double newLengthPath = algorithmGraph.getShortestPathLength(newStopListPath);
+
+        if (_lengthPath < newLengthPath) {
+            _lengthPath = newLengthPath;
+            _path = newStopListPath;
+        }
+
+        init(stopQueue, algorithmGraph);
+    }
+
 }

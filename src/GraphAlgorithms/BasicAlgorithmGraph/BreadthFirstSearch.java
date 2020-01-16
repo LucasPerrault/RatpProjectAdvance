@@ -27,14 +27,11 @@ public class BreadthFirstSearch implements AlgorithmGraph
         _predessorStopsPath.add(_src);
         cellAlreadyVisited.put(_src, true);
 
-        long startTime = System.currentTimeMillis();
         if (withoutRecursivity) {
             BFSWithoutRecursivity(evaluatedQueue, cellAlreadyVisited);
         } else {
             BFSRecursive(evaluatedQueue, cellAlreadyVisited);
         }
-        long stopTime = System.currentTimeMillis();
-        System.out.println("\nPermorfance of BFS algorithm : " + (stopTime - startTime) + "ms\n");
     }
 
     private void BFSRecursive(Queue<Stop> evaluatedQueue,  HashMap<Stop, Boolean> cellAlreadyVisited)
