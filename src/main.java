@@ -14,8 +14,10 @@ import Ui.SimpleMap;
 import javafx.application.Application;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class main {
 
@@ -42,17 +44,22 @@ public class main {
         Stop src = ratpFactory.getStopFactory(stops);
         Stop dest = ratpFactory.getStopFactory(stops);
 
-
             // B.1 Graph Factory :
         AlgorithmGraph algorithmGraph = ratpFactory.getAlgorithmFactory(networkTransport, src, dest);
 
             // B.2 Initialization of algorithm with
 
                 // B.2.1 Recursivity. (check boolean value)
+        long startTime = System.currentTimeMillis();
         algorithmGraph.init(false); // Recursif Algorithm
+        long stopTime = System.currentTimeMillis();
+        System.out.println("\nPermorfance algorithm recursif : " + (stopTime - startTime) + "ms\n");
 
                 // B.2.2 Non-Recursivity. (check boolean value)
+        long startTimeIt = System.currentTimeMillis();
         algorithmGraph.init(true); // Non-recursif algorithm
+        long stopTimeIt = System.currentTimeMillis();
+        System.out.println("\nPermorfance algorithm non-recursif : " + (stopTimeIt - startTimeIt) + "ms\n");
 
             // B.3 Shortest path and length.
         List<Stop> shortestPath = algorithmGraph.getShortestPath(dest);
@@ -64,7 +71,7 @@ public class main {
 
         // C. Structural properties
             // C.1 Eccentricity
-        System.out.println("\n\nEccentricity part : \n");
+        System.out.println("\n\nEccentricity part : ----------------------------------------------\n");
         Eccentricity eccentricity = new Eccentricity(networkTransport, src, Optional.empty());
         List<Stop> eccentricityPath = eccentricity.getPath();
         double eccentricityLength = eccentricity.getLength();
@@ -72,18 +79,25 @@ public class main {
         eccentricity.printPathAndLength(eccentricityPath, eccentricityLength);
 
             // C.2 Diameter
-        System.out.println("\n\nDiameter part : \n");
+        System.out.println("\n\nDiameter part : ------------------------------------------------- \n");
+        long startTimeDiameter = System.currentTimeMillis();
         Diameter diameter = new Diameter(networkTransport);
         List<Stop> diameterPath = diameter.getPath();
         double diameterLength = diameter.getLength();
+        long stopTimeDiameter = System.currentTimeMillis();
+        System.out.println("\nPermorfance algorithm : " + (stopTimeDiameter - startTimeDiameter ) + "ms\n");
 
         diameter.printPathAndLength(diameterPath, diameterLength);
 
             // C.3 Radius
-        System.out.println("\n\nRadius part : \n");
+        System.out.println("\n\nRadius part : ----------------------------------------------------\n");
+        long startTimeRadius = System.currentTimeMillis();
         Radius radius = new Radius(networkTransport);
         List<Stop> radiusPath = radius.getPath();
         double radiusLength = radius.getLength();
+
+        long stopTimeRadius = System.currentTimeMillis();
+        System.out.println("\nPermorfance algorithm : " + (stopTimeRadius - startTimeRadius) + "ms\n");
 
         radius.printPathAndLength(radiusPath, radiusLength);
     }
