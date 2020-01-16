@@ -18,6 +18,7 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
@@ -30,6 +31,7 @@ import org.json.simple.parser.ParseException;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SimpleMap extends Application {
@@ -46,10 +48,14 @@ public class SimpleMap extends Application {
     private SpatialReference spatialReference = SpatialReferences.getWgs84();
     private GraphicsOverlay graphicsOverlay;
     private MapView mapView;
+    private  static List<Stop> path  ;
 
     public SimpleMap() throws IOException, ParseException {
     }
+    public SimpleMap(List<Stop> path_) throws IOException, ParseException {
+        path = path_;
 
+    }
     public static void main(String[] args) {
 
         Application.launch(args);
@@ -59,6 +65,13 @@ public class SimpleMap extends Application {
             graphicsOverlay = new GraphicsOverlay();
             mapView.getGraphicsOverlays().add(graphicsOverlay);
         }
+    }
+    private void addTextToPoint(String station,double lon,double lat){
+        TextSymbol textSymbol = new TextSymbol();
+        textSymbol.setText(station);
+        Point point = new Point( lon, lat);
+        Graphic pointGraphic = new Graphic(point,textSymbol);
+        graphicsOverlay.getGraphics().add(pointGraphic);
     }
     private void addPointGraphic() {
         if (graphicsOverlay != null) {
@@ -115,6 +128,20 @@ public class SimpleMap extends Application {
 
         return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
     }
+    public void addPath() {
+        System.out.println(path);
+        ArrayList<Stop> stops = new ArrayList<Stop>(path);
+        for (Stop stop :
+                stops) {
+            System.out.println(stop);
+            //Stop stop = network.getStopById(stopStr);
+            addPointGraphic(
+                    Float.parseFloat(stop.getLng()),
+                    Float.parseFloat(stop.getLat()),
+                    hexRed);
+
+        }
+    }
     private void drawStop()  {
         // Draw Lines
         for (Line line:
@@ -127,33 +154,42 @@ public class SimpleMap extends Application {
            )
 
             ;
-            System.out.println(color);
-            System.out.println(line.getColor());
-            ArrayList<String> stopsOfLineString = line.getStopIds().get(0);
-            //Draw Lines
-            for (String stopStr:
-                 stopsOfLineString) {
-                Stop stop = network.getStopById(stopStr);
-                addPointGraphic(
-                        Float.parseFloat(stop.getLng() ),
-                        Float.parseFloat( stop.getLat() ) ,
-                        color );
-                //To Draw lines we get Adjacent Stops
-                 ArrayList<Stop> adjStops = network.getAdjacentsByStopAndLine(stop,line);
-                for (Stop adjStop:
-                     adjStops) {
-                    Stop[]   stop2toDraw = {stop,adjStop};
-                    // Actually Draw the Lines
-                    addPolylineGraphic(stop2toDraw,color);
+            ArrayList<ArrayList<String>> directions = line.getStopIds();
+            for (ArrayList<String> direction:
+                 directions){
+
+                //Draw Lines
+                for (String stopStr:
+                        direction) {
+                    Stop stop = network.getStopById(stopStr);
+                    addPointGraphic(
+                            Float.parseFloat(stop.getLng() ),
+                            Float.parseFloat( stop.getLat() ) ,
+                            color );
+//                    addTextToPoint(
+//                            stop.getName(),
+//                            Float.parseFloat(stop.getLng() ),
+//                            Float.parseFloat( stop.getLat() )
+//                    );
+                    //To Draw lines we get Adjacent Stops
+                    ArrayList<Stop> adjStops = network.getAdjacentsByStopAndLine(stop,line);
+                    for (Stop adjStop:
+                            adjStops) {
+                        Stop[]   stop2toDraw = {stop,adjStop};
+                        // Actually Draw the Lines
+                        addPolylineGraphic(stop2toDraw,color);
+                    }
                 }
+
             }
+
         }
     }
 
     @Override
     public void start(Stage stage) {
         // set the title and size of the stage and show it
-        stage.setTitle("My Map App");
+        stage.setTitle("Ratp Project Advance");
         stage.setWidth(800);
         stage.setHeight(700);
         stage.show();
@@ -170,7 +206,7 @@ public class SimpleMap extends Application {
         stackPane.getChildren().add(mapView);
 
         // create an ArcGISMap with the default imagery basemap
-        ArcGISMap map = new ArcGISMap(Basemap.createImagery().createStreets());
+        ArcGISMap map = new ArcGISMap(Basemap.createImagery());
         //Set center
         setCenter();
 
@@ -185,6 +221,7 @@ public class SimpleMap extends Application {
       //  addPointGraphic();
        // addPolylineGraphic();
         drawStop();
+        addPath();
         mapView.setMap(map);
 
     }
@@ -197,5 +234,9 @@ public class SimpleMap extends Application {
         if (mapView != null) {
             mapView.dispose();
         }
+    }
+
+    public void main() {
+        Application.launch();
     }
 }

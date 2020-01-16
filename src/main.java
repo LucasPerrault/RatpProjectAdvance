@@ -10,6 +10,8 @@ import RatpServices.RatpDataService;
 import StructuralProperties.Diameter;
 import StructuralProperties.Eccentricity;
 import StructuralProperties.Radius;
+import Ui.SimpleMap;
+import javafx.application.Application;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -31,8 +33,7 @@ public class main {
 
             // A.2 Graph construction in UI
         NetworkTransport networkTransport = new NetworkTransport(lines, stops);
-
-        /*Remy's party*/
+        
 
 
         // B. Algorithms and Shortest Path
@@ -59,6 +60,7 @@ public class main {
 
             // B.4 Print them
         algorithmGraph.printShortestPathAndLength(shortestPath, length, dest);
+
 
         // C. Structural properties
             // C.1 Eccentricity
